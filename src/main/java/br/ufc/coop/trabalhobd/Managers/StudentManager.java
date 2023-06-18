@@ -1,7 +1,7 @@
-package Managers;
+package br.ufc.coop.trabalhobd.Managers;
 
-import Repositories.BaseRepository;
-import Repositories.StudentRepository;
+import br.ufc.coop.trabalhobd.Repositories.BaseRepository;
+import br.ufc.coop.trabalhobd.Repositories.StudentRepository;
 import br.ufc.coop.trabalhobd.Entities.Student;
 import java.util.List;
 

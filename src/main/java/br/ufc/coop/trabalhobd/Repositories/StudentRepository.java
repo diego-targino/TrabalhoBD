@@ -1,4 +1,4 @@
-package Repositories;
+package br.ufc.coop.trabalhobd.Repositories;
 
 import br.ufc.coop.trabalhobd.Entities.Student;
 import java.sql.Connection;
