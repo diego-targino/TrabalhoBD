@@ -9,7 +9,7 @@ public class TrabalhoBD {
         StudentManager studentManager = new StudentManager();
 
         for(Student s : studentManager.getStudents()){
-            System.out.println(s.toString() +"\n");
+            System.out.println(s.toString() +" " + s.getId() + "\n");
         }
         /*
         System.out.println("--------------------------------------");
