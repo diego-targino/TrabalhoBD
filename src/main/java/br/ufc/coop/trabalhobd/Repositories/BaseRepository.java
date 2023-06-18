@@ -1,4 +1,4 @@
-package Repositories;
+package br.ufc.coop.trabalhobd.Repositories;
 
 import java.util.List;
 

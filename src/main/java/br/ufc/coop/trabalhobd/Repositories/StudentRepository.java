@@ -1,4 +1,4 @@
-package Repositories;
+package br.ufc.coop.trabalhobd.Repositories;
 
 import br.ufc.coop.trabalhobd.Entities.Student;
 import java.sql.Connection;
@@ -78,8 +78,6 @@ public class StudentRepository extends BaseRepository<Student> {
 
             int rowsUpdated = stmt.getUpdateCount();
 
-            System.out.println("Rows updated: " + rowsUpdated);
-
             conn.close();
 
         } catch (SQLException ex) {
@@ -97,8 +95,6 @@ public class StudentRepository extends BaseRepository<Student> {
             stmt.execute(sqlCommand);
 
             int rowsUpdated = stmt.getUpdateCount();
-
-            System.out.println("Rows updated: " + rowsUpdated);
 
             conn.close();
 
