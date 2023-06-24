@@ -95,13 +95,21 @@ public class ViewStudent extends JFrame {
 		JButton btnEditStudent = new JButton("Salvar");
 		btnEditStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+        
 				Student studentUpdate = new Student(student.getRegistration(), nameField.getText(), emailField.getText());
 				
-				studentManager.updateStudent(studentUpdate);
-				fecharJanela();
-				String mensagem = "Estudante atualizado com sucesso!";
-			    JOptionPane.showMessageDialog(null, mensagem);
-											
+				if (nameField.getText().isBlank() || emailField.getText().isBlank()) {
+					String mensagem = "Preencha todos os campos!";
+				    JOptionPane.showMessageDialog(null, mensagem);
+				}
+				else {					
+					Student studentUpdate = new Student(student.getId(), nameField.getText(), emailField.getText());
+					
+					studentManager.updateStudent(studentUpdate);
+					fecharJanela();
+					String mensagem = "Estudante atualizado com sucesso!";
+					JOptionPane.showMessageDialog(null, mensagem);
+				}											
 			}
 		});
 		btnEditStudent.setFont(new Font("Arial", Font.PLAIN, 12));
