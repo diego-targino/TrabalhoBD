@@ -6,7 +6,7 @@ public abstract class BaseRepository<T> {
 
     protected static String DB_URL = "jdbc:mysql://localhost/school";
     protected static String DB_USER = "root";
-    protected static String DB_PASSWORD = "root";
+    protected static String DB_PASSWORD = "";
 
     public abstract void Insert(T entity);
 
@@ -15,4 +15,5 @@ public abstract class BaseRepository<T> {
     public abstract void Update(T entity);
 
     public abstract void Delete(long id);
+    
 }

@@ -84,7 +84,7 @@ public class ViewStudentList extends JFrame {
 		          if (index >= 0) {
 		            final Object o = theList.getModel().getElementAt(index);
 		            List<Student> students = studentManager.getStudents();
-		            Student student = students.stream().filter(s -> {return       s.getName().equals(o.toString());}).findAny().orElse(null);
+		            Student student = students.stream().filter(s -> {return s.getName().equals(o.toString());}).findAny().orElse(null);
 		            ViewStudent VS = new ViewStudent(student);
 		            fecharJanela();
 		            VS.setVisible(true);
