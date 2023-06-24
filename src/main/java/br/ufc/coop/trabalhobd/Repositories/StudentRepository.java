@@ -1,11 +1,11 @@
 package br.ufc.coop.trabalhobd.Repositories;
 
 import br.ufc.coop.trabalhobd.Entities.Student;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import br.ufc.coop.trabalhobd.VOs.SchoolRecord;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -13,94 +13,152 @@ import java.util.logging.Logger;
 
 public class StudentRepository extends BaseRepository<Student> {
 
-    @Override
-    public void Insert(Student entity) {
-        try {
-            Connection conn = null;
-            Statement stmt = null;
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+	@Override
+	public void Insert(Student entity) {
+		try {
+			CreateConnection();
 
-            stmt = conn.createStatement();
-            String sqlCommand = "INSERT INTO student (name, email) VALUES ('" + entity.getName() + "', '" + entity.getEmail() + "')";
+			String sqlTemplate = "INSERT INTO aluno (nome, email, telefone, data_nasc, sexo) VALUES (''{0}'',''{1}'',''{2}'',''{3}'',{4})";
 
-            stmt.executeUpdate(sqlCommand, Statement.RETURN_GENERATED_KEYS);
+			String sqlCommand = MessageFormat.format(sqlTemplate, entity.getName(), entity.getEmail(), entity.getCellphone(),
+					entity.getBirth_date().toString(), entity.isGender());
 
-            ResultSet rs = null;
+			stmt.executeUpdate(sqlCommand, Statement.RETURN_GENERATED_KEYS);
 
-            rs = stmt.getGeneratedKeys();
-            int id = 0;
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
+			CloseConnection();
 
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+		} catch (SQLException ex) {
+			Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-    @Override
-    public List<Student> SelectAll() {
-        List<Student> studentList = new ArrayList<Student>();
+	@Override
+	public List<Student> SelectAll() {
+		List<Student> alunoList = new ArrayList<Student>();
 
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            Statement stmt = conn.createStatement();
+		try {
+			CreateConnection();
 
-            String sqlCommand = "SELECT * FROM student";
-            stmt.execute(sqlCommand);
+			String sqlCommand = "SELECT * FROM aluno";
+			stmt.execute(sqlCommand);
 
-            ResultSet rs = stmt.getResultSet();
-            Student student = null;
+			ResultSet rs = stmt.getResultSet();
+			Student aluno = null;
 
-            while (rs.next()) {
-                student = new Student(rs.getLong("id"), rs.getString("name"), rs.getString("email"));
-                studentList.add(student);
-            }
+			while (rs.next()) {
+				aluno = new Student(rs.getLong("matricula"), rs.getString("nome"), rs.getString("email"),
+						rs.getString("telefone"), rs.getDate("data_nasc"), rs.getBoolean("sexo"));
 
-            conn.close();
+				alunoList.add(aluno);
+			}
 
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
+			CloseConnection();
 
-        return studentList;
-    }
+		} catch (SQLException ex) {
+			Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
-    @Override
-    public void Update(Student entity) {
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            Statement stmt = conn.createStatement();
+		return alunoList;
+	}
 
-            String sqlCommand = "UPDATE student SET name = '" + entity.getName() + "', email = '" + entity.getEmail() + "' WHERE id = " + entity.getId();
-            stmt.execute(sqlCommand);
+	@Override
+	public void Update(Student entity) {
+		try {
+			CreateConnection();
 
-            int rowsUpdated = stmt.getUpdateCount();
+			String sqlTemplate = "UPDATE aluno SET nome = ''{0}'', email = ''{1}'', telefone = ''{2}'', data_nasc = ''{3}'', sexo = {4} WHERE matricula = {5}";
 
-            conn.close();
+			String sqlCommand = MessageFormat.format(sqlTemplate, entity.getName(), entity.getEmail(), entity.getCellphone(),
+					entity.getBirth_date().toString(), entity.isGender(), entity.getRegistration());
 
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+			stmt.execute(sqlCommand);
 
-    @Override
-    public void Delete(long id) {
-        try {
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            Statement stmt = conn.createStatement();
+			CloseConnection();
 
-            String sqlCommand = "DELETE FROM student WHERE id = " + id;
-            stmt.execute(sqlCommand);
+		} catch (SQLException ex) {
+			Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-            int rowsUpdated = stmt.getUpdateCount();
+	@Override
+	public void Delete(long identifier) {
+		try {
+			CreateConnection();
 
-            conn.close();
+			String sqlTemplate = "DELETE FROM aluno WHERE matricula = {0}";
+			String sqlCommand = MessageFormat.format(sqlTemplate, identifier);
 
-        } catch (SQLException ex) {
-            Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+			stmt.execute(sqlCommand);
+
+			CloseConnection();
+
+		} catch (SQLException ex) {
+			Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	public List<Student> SearchStudents(String filter) {
+		List<Student> studentList = new ArrayList<Student>();
+
+		try {
+			CreateConnection();
+
+			String sqlTemplate = "SELECT * FROM aluno WHERE nome like ''%{0}%'' OR email like ''%{0}%''";
+
+			String sqlCommand = MessageFormat.format(sqlTemplate, filter);
+
+			stmt.execute(sqlCommand);
+
+			Student student = null;
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+				student = new Student(rs.getLong("matricula"), rs.getString("nome"), rs.getString("email"),
+						rs.getString("telefone"), rs.getDate("data_nasc"), rs.getBoolean("sexo"));
+
+				studentList.add(student);
+			}
+
+			CloseConnection();
+
+		} catch (SQLException ex) {
+			Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		return studentList;
+	}
+
+	public List<SchoolRecord> GetSchoolRecords(long studentRegistration) {
+		List<SchoolRecord> SchoolRecords = new ArrayList<SchoolRecord>();
+
+		try {
+			CreateConnection();
+
+			String sqlTemplate = "SELECT D.nome, AD.periodo, AD.nota, AD.frequencia FROM disciplina AS D JOIN aluno_disciplina AS AD ON AD.disciplina_cod = D.codigo WHERE AD.aluno_matr = {0}";
+
+			String sqlCommand = MessageFormat.format(sqlTemplate, studentRegistration);
+
+			stmt.execute(sqlCommand);
+
+			SchoolRecord course = null;
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+				course = new SchoolRecord(rs.getString("nome"), rs.getString("periodo"), rs.getFloat("nota"),
+						rs.getInt("frequencia"));
+
+				SchoolRecords.add(course);
+			}
+
+			CloseConnection();
+
+		} catch (SQLException ex) {
+			Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		return SchoolRecords;
+	}
 
 }

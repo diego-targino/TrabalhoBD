@@ -61,7 +61,7 @@ public class ViewStudent extends JFrame {
 		
 		idField = new JTextField();
 		idField.setEditable(false);
-		idField.setText(Long.toString(student.getId()));
+		idField.setText(Long.toString(student.getRegistration()));
 		idField.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Nome:");
@@ -95,7 +95,7 @@ public class ViewStudent extends JFrame {
 		JButton btnEditStudent = new JButton("Salvar");
 		btnEditStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Student studentUpdate = new Student(student.getId(), nameField.getText(), emailField.getText());
+				Student studentUpdate = new Student(student.getRegistration(), nameField.getText(), emailField.getText());
 				
 				studentManager.updateStudent(studentUpdate);
 				fecharJanela();
