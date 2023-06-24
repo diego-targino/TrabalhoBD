@@ -25,14 +25,6 @@ public class StudentRepository extends BaseRepository<Student> {
 
             stmt.executeUpdate(sqlCommand, Statement.RETURN_GENERATED_KEYS);
 
-            ResultSet rs = null;
-
-            rs = stmt.getGeneratedKeys();
-            int id = 0;
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
@@ -76,8 +68,6 @@ public class StudentRepository extends BaseRepository<Student> {
             String sqlCommand = "UPDATE student SET name = '" + entity.getName() + "', email = '" + entity.getEmail() + "' WHERE id = " + entity.getId();
             stmt.execute(sqlCommand);
 
-            int rowsUpdated = stmt.getUpdateCount();
-
             conn.close();
 
         } catch (SQLException ex) {
@@ -93,8 +83,6 @@ public class StudentRepository extends BaseRepository<Student> {
 
             String sqlCommand = "DELETE FROM student WHERE id = " + id;
             stmt.execute(sqlCommand);
-
-            int rowsUpdated = stmt.getUpdateCount();
 
             conn.close();
 

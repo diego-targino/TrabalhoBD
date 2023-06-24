@@ -55,17 +55,28 @@ public class ViewHome extends JFrame {
         JLabel lblNewLabel = new JLabel("Student Manager");
         lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        JButton btnClose = new JButton("Fechar");
+        btnClose.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fecharJanela();
+			}
+		});
+        
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
-        	gl_contentPane.createParallelGroup(Alignment.LEADING)
+        	gl_contentPane.createParallelGroup(Alignment.TRAILING)
         		.addGroup(gl_contentPane.createSequentialGroup()
-        			.addGap(166)
-        			.addComponent(students, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-        			.addGap(155))
-        		.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
         			.addGap(125)
         			.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
         			.addGap(115))
+        		.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+        			.addGap(166)
+        			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+        				.addComponent(btnClose, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+        				.addComponent(students, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
+        			.addGap(155))
         );
         gl_contentPane.setVerticalGroup(
         	gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -74,7 +85,9 @@ public class ViewHome extends JFrame {
         			.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
         			.addGap(18)
         			.addComponent(students)
-        			.addContainerGap(178, Short.MAX_VALUE))
+        			.addGap(11)
+        			.addComponent(btnClose)
+        			.addContainerGap(144, Short.MAX_VALUE))
         );
         contentPane.setLayout(gl_contentPane);
         students.addActionListener(new ActionListener() {
@@ -90,5 +103,4 @@ public class ViewHome extends JFrame {
         setVisible(false);
         dispose();
     }
-
 }

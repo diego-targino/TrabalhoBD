@@ -15,4 +15,5 @@ public abstract class BaseRepository<T> {
     public abstract void Update(T entity);
 
     public abstract void Delete(long id);
+    
 }
