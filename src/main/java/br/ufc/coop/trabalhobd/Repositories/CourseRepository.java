@@ -125,5 +125,33 @@ public class CourseRepository extends BaseRepository<Course> {
 
 		return courseClass;
 	}
+	
+	public List<String> getPeriods(long courseCode) {
+		List<String> periodsList = new ArrayList<String>();
+		try {
+			CreateConnection();
+			String sqlTemplate = "SELECT DISTINCT periodo FROM aluno_disciplina WHERE disciplina_cod = {0}";
+			String sqlCommand = MessageFormat.format(sqlTemplate, courseCode);
+			
+			stmt.execute(sqlCommand);
+
+			String period;
+
+			ResultSet rs = stmt.getResultSet();
+
+			while (rs.next()) {
+				period = rs.getString("periodo");
+
+				periodsList.add(period);
+			}
+
+			CloseConnection();
+			
+		} catch (SQLException ex) {
+			Logger.getLogger(CourseRepository.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+		return periodsList;
+	}
 
 }
