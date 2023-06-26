@@ -32,4 +32,8 @@ public class CourseManager {
 	public List<CourseClass> GetCourseClass(long CourseCode, String period) {
 		return this.repository.GetCourseClass(CourseCode, period);
 	}
+	
+	public List<String> getPeriods(long courseCode) {
+		return this.repository.getPeriods(courseCode);
+	}
 }

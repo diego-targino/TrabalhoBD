@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import view.course.ViewCourseList;
+import view.student.ViewStudentList;
+
 import java.awt.Window.Type;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -40,23 +44,44 @@ public class ViewHome extends JFrame {
      * Create the frame.
      */
     public ViewHome() {
+    	setResizable(false);
         setFont(new Font("Arial", Font.PLAIN, 12));
         setTitle("Student Manager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 398, 436);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         setContentPane(contentPane);
 
-        JButton students = new JButton("Estudantes");
-        students.setFont(new Font("Arial", Font.PLAIN, 12));
-        
         JLabel lblNewLabel = new JLabel("Student Manager");
         lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
+        JButton students = new JButton("Estudantes");
+        students.setToolTipText("Ver lista de estudantes");
+        students.setFont(new Font("Arial", Font.PLAIN, 12));
+        students.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {             
+                ViewStudentList VSL = new ViewStudentList();
+                fecharJanela();
+                VSL.setVisible(true);
+            }
+        });
+        
+        JButton disciplinas = new JButton("Disciplinas");
+        disciplinas.setToolTipText("Ver lista de disciplinas");
+        disciplinas.setFont(new Font("Arial", Font.PLAIN, 12));
+        disciplinas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {             
+            	ViewCourseList VCL = new ViewCourseList();
+                fecharJanela();
+                VCL.setVisible(true);
+            }
+        });
+        
         JButton btnClose = new JButton("Fechar");
+        btnClose.setToolTipText("Finalizar a execução e sair");
         btnClose.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,19 +89,18 @@ public class ViewHome extends JFrame {
 			}
 		});
         
+        
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
         	gl_contentPane.createParallelGroup(Alignment.TRAILING)
+        		.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
         		.addGroup(gl_contentPane.createSequentialGroup()
-        			.addGap(125)
-        			.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-        			.addGap(115))
-        		.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-        			.addGap(166)
-        			.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-        				.addComponent(btnClose, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-        				.addComponent(students, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
-        			.addGap(155))
+        			.addGap(139)
+        			.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(btnClose, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+        				.addComponent(disciplinas, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+        				.addComponent(students, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        			.addGap(138))
         );
         gl_contentPane.setVerticalGroup(
         	gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -85,18 +109,13 @@ public class ViewHome extends JFrame {
         			.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
         			.addGap(18)
         			.addComponent(students)
-        			.addGap(11)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(disciplinas)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
         			.addComponent(btnClose)
-        			.addContainerGap(144, Short.MAX_VALUE))
+        			.addContainerGap(246, Short.MAX_VALUE))
         );
         contentPane.setLayout(gl_contentPane);
-        students.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {             
-                ViewStudentList VSL = new ViewStudentList();
-                fecharJanela();
-                VSL.setVisible(true);
-            }
-        });
     }
 
     private void fecharJanela() {
