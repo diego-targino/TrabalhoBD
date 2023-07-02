@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.GroupLayout;
@@ -26,12 +24,15 @@ import br.ufc.coop.trabalhobd.Managers.StudentManager;
 
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.ListSelectionModel;
 
 public class NewStudent extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField nameField;
 	private JTextField emailField;
@@ -109,13 +110,17 @@ public class NewStudent extends JFrame {
 		JLabel lblSexo = new JLabel("Sexo:");
 		lblSexo.setFont(new Font("Arial", Font.PLAIN, 14));
 		
-		JList genderList = new JList();
+		JList<Object> genderList = new JList<Object>();
 		genderList.setToolTipText("Selecione o gênero");
 		genderList.setVisibleRowCount(2);
 		genderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		genderList.setFont(new Font("Arial", Font.PLAIN, 12));
 		genderList.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		genderList.setModel(new AbstractListModel() {
+		genderList.setModel(new AbstractListModel<Object>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			String[] values = new String[] {"Feminino", "Masculino"};
 			public int getSize() {
 				return values.length;
