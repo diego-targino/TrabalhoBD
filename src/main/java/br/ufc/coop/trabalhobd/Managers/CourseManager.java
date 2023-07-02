@@ -5,6 +5,7 @@ import java.util.List;
 import br.ufc.coop.trabalhobd.Entities.Course;
 import br.ufc.coop.trabalhobd.Repositories.CourseRepository;
 import br.ufc.coop.trabalhobd.VOs.CourseClass;
+import br.ufc.coop.trabalhobd.VOs.CoursesPeriod;
 
 public class CourseManager {
 	private CourseRepository repository;
@@ -32,8 +33,12 @@ public class CourseManager {
 	public List<CourseClass> GetCourseClass(long CourseCode, String period) {
 		return this.repository.GetCourseClass(CourseCode, period);
 	}
-	
+
 	public List<String> getPeriods(long courseCode) {
 		return this.repository.getPeriods(courseCode);
+	}
+
+	public List<CoursesPeriod> SelectCoursesPeriod() {
+		return this.repository.SelectCoursesPeriod();
 	}
 }

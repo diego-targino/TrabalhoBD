@@ -10,12 +10,27 @@ public class Student {
 	private String cellphone;
 	private Date birth_date;
 	private boolean gender;
+	private String distinction;
+	private float media;
 
 	public Student(long registration, String name, String email) {
 		this.registration = registration;
 		this.name = name;
 		this.email = email;
 		this.birth_date = Date.valueOf(LocalDate.now());
+	}
+
+	public Student(long registration, String name, String email, String cellphone, Date birth_date, boolean gender,
+			String distinction, float media) {
+		super();
+		this.registration = registration;
+		this.name = name;
+		this.email = email;
+		this.cellphone = cellphone;
+		this.birth_date = birth_date;
+		this.gender = gender;
+		this.distinction = distinction;
+		this.media = media;
 	}
 
 	public Student(String name, String email) {
@@ -33,7 +48,7 @@ public class Student {
 		this.birth_date = birth_date;
 		this.gender = gender;
 	}
-	
+
 	public Student(String name, String email, String cellphone, Date birth_date, boolean gender) {
 		super();
 		this.name = name;
@@ -45,8 +60,9 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student {registration=" + registration + ", name=" + name + ", email=" + email + ", cellphone=" + cellphone
-				+ ", birth_date=" + birth_date + ", gender=" + gender + "}";
+		return "Student [registration=" + registration + ", name=" + name + ", email=" + email + ", cellphone=" + cellphone
+				+ ", birth_date=" + birth_date + ", gender=" + gender + ", distinction=" + distinction + ", media=" + media
+				+ "]";
 	}
 
 	public long getRegistration() {
@@ -95,6 +111,22 @@ public class Student {
 
 	public void setGender(boolean gender) {
 		this.gender = gender;
+	}
+
+	public float getMedia() {
+		return media;
+	}
+
+	public void setMedia(float media) {
+		this.media = media;
+	}
+
+	public String getDistinction() {
+		return distinction;
+	}
+
+	public void setDistinction(String distinction) {
+		this.distinction = distinction;
 	}
 
 }

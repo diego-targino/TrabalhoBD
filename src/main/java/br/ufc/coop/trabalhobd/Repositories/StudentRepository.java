@@ -39,7 +39,8 @@ public class StudentRepository extends BaseRepository<Student> {
 		try {
 			CreateConnection();
 
-			String sqlCommand = "SELECT * FROM aluno";
+			String sqlCommand = "SELECT A.*, CASE WHEN (AVG(AD.nota) IS NULL) THEN 0 WHEN (AVG(AD.nota) IS NOT NULL)THEN AVG(AD.nota) END AS media FROM aluno AS A LEFT JOIN aluno_disciplina AS AD on AD.aluno_matr = A.matricula GROUP BY A.matricula";
+
 			stmt.execute(sqlCommand);
 
 			ResultSet rs = stmt.getResultSet();
@@ -47,7 +48,8 @@ public class StudentRepository extends BaseRepository<Student> {
 
 			while (rs.next()) {
 				aluno = new Student(rs.getLong("matricula"), rs.getString("nome"), rs.getString("email"),
-						rs.getString("telefone"), rs.getDate("data_nasc"), rs.getBoolean("sexo"));
+						rs.getString("telefone"), rs.getDate("data_nasc"), rs.getBoolean("sexo"), rs.getString("distincao"),
+						rs.getFloat("media"));
 
 				alunoList.add(aluno);
 			}
