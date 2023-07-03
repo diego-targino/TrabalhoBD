@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import br.ufc.coop.trabalhobd.Entities.Course;
 import br.ufc.coop.trabalhobd.VOs.CourseClass;
+import br.ufc.coop.trabalhobd.VOs.CoursesPeriod;
 
 public class CourseRepository extends BaseRepository<Course> {
 
@@ -102,9 +103,9 @@ public class CourseRepository extends BaseRepository<Course> {
 		try {
 			CreateConnection();
 
-			String sqlTemplate  = "SELECT A.matricula, A.nome, AD.nota, AD.frequencia FROM aluno AS A JOIN aluno_disciplina AS AD ON AD.aluno_matr = A.matricula WHERE AD.disciplina_cod = {0} AND AD.periodo = ''{1}''"; 
-			String sqlCommand = MessageFormat.format(sqlTemplate, CourseCode, period) ;
-			
+			String sqlTemplate = "SELECT A.matricula, A.nome, AD.nota, AD.frequencia FROM aluno AS A JOIN aluno_disciplina AS AD ON AD.aluno_matr = A.matricula WHERE AD.disciplina_cod = {0} AND AD.periodo = ''{1}''";
+			String sqlCommand = MessageFormat.format(sqlTemplate, CourseCode, period);
+
 			stmt.execute(sqlCommand);
 
 			ResultSet rs = stmt.getResultSet();
@@ -125,14 +126,14 @@ public class CourseRepository extends BaseRepository<Course> {
 
 		return courseClass;
 	}
-	
+
 	public List<String> getPeriods(long courseCode) {
 		List<String> periodsList = new ArrayList<String>();
 		try {
 			CreateConnection();
 			String sqlTemplate = "SELECT DISTINCT periodo FROM aluno_disciplina WHERE disciplina_cod = {0}";
 			String sqlCommand = MessageFormat.format(sqlTemplate, courseCode);
-			
+
 			stmt.execute(sqlCommand);
 
 			String period;
@@ -146,12 +147,39 @@ public class CourseRepository extends BaseRepository<Course> {
 			}
 
 			CloseConnection();
-			
+
 		} catch (SQLException ex) {
 			Logger.getLogger(CourseRepository.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
+
 		return periodsList;
 	}
 
+	public List<CoursesPeriod> SelectCoursesPeriod() {
+		List<CoursesPeriod> courseList = new ArrayList<CoursesPeriod>();
+
+		try {
+			CreateConnection();
+
+			String sqlCommand = "SELECT  D.nome, AD.periodo, COUNT(AD.aluno_matr) AS qtd_alunos, MAX(AD.nota) AS maior_nota, MIN(AD.nota) AS menor_nota, AVG(AD.nota) AS media FROM disciplina AS D JOIN aluno_disciplina AS AD ON AD.disciplina_cod = D.codigo GROUP BY AD.disciplina_cod, AD.periodo";
+			stmt.execute(sqlCommand);
+
+			ResultSet rs = stmt.getResultSet();
+			CoursesPeriod course = null;
+
+			while (rs.next()) {
+				course = new CoursesPeriod(rs.getString("nome"), rs.getString("periodo"), rs.getInt("qtd_alunos"),
+						rs.getFloat("maior_nota"), rs.getFloat("menor_nota"), rs.getFloat("media"));
+
+				courseList.add(course);
+			}
+
+			CloseConnection();
+
+		} catch (SQLException ex) {
+			Logger.getLogger(CourseRepository.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		return courseList;
+	}
 }

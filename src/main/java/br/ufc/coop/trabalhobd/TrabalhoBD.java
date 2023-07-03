@@ -6,6 +6,6 @@ public class TrabalhoBD {
 
 	public static void main(String[] args) {
 		ViewHome VH = new ViewHome();
-		VH.setVisible(true);		
+		VH.setVisible(true);
 	}
 }

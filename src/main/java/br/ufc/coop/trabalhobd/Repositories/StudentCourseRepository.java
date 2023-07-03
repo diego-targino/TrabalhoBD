@@ -1,16 +1,12 @@
 package br.ufc.coop.trabalhobd.Repositories;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import br.ufc.coop.trabalhobd.Entities.Course;
-import br.ufc.coop.trabalhobd.Entities.Student;
 import br.ufc.coop.trabalhobd.Entities.StudentCourse;
 
 public class StudentCourseRepository extends BaseRepository<StudentCourse> {
